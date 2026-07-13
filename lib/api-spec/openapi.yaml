@@ -3,13 +3,25 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: EduCRM API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: me
+    description: Current user & organization
+  - name: contacts
+    description: Client/contact records
+  - name: pipeline
+    description: Pipeline stages
+  - name: deals
+    description: Sales deals
+  - name: tasks
+    description: Tasks & reminders
+  - name: dashboard
+    description: Dashboard summaries
 paths:
   /healthz:
     get:
@@ -24,7 +36,379 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /me:
+    get:
+      operationId: getMe
+      tags: [me]
+      summary: Get current user and organization (JIT-provisions on first call)
+      responses:
+        "200":
+          description: Current user and organization
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Me"
+
+  /contacts:
+    get:
+      operationId: listContacts
+      tags: [contacts]
+      summary: List contacts in the current organization
+      parameters:
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of contacts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactList"
+    post:
+      operationId: createContact
+      tags: [contacts]
+      summary: Create a contact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+
+  /contacts/{id}:
+    get:
+      operationId: getContact
+      tags: [contacts]
+      summary: Get a contact
+      parameters:
+        - $ref: "#/components/parameters/ContactId"
+      responses:
+        "200":
+          description: Contact
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateContact
+      tags: [contacts]
+      summary: Update a contact
+      parameters:
+        - $ref: "#/components/parameters/ContactId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteContact
+      tags: [contacts]
+      summary: Delete a contact
+      parameters:
+        - $ref: "#/components/parameters/ContactId"
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+
+  /pipeline-stages:
+    get:
+      operationId: listPipelineStages
+      tags: [pipeline]
+      summary: List pipeline stages ordered by position
+      responses:
+        "200":
+          description: List of pipeline stages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PipelineStageList"
+    post:
+      operationId: createPipelineStage
+      tags: [pipeline]
+      summary: Create a pipeline stage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PipelineStageInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PipelineStage"
+
+  /pipeline-stages/{id}:
+    patch:
+      operationId: updatePipelineStage
+      tags: [pipeline]
+      summary: Update a pipeline stage (name, order, color)
+      parameters:
+        - $ref: "#/components/parameters/PipelineStageId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PipelineStageUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PipelineStage"
+        "404":
+          description: Not found
+    delete:
+      operationId: deletePipelineStage
+      tags: [pipeline]
+      summary: Delete a pipeline stage
+      parameters:
+        - $ref: "#/components/parameters/PipelineStageId"
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+
+  /deals:
+    get:
+      operationId: listDeals
+      tags: [deals]
+      summary: List deals in the current organization, optionally filtered by stage
+      parameters:
+        - name: stageId
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: status
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/DealStatus"
+      responses:
+        "200":
+          description: List of deals
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DealList"
+    post:
+      operationId: createDeal
+      tags: [deals]
+      summary: Create a deal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DealInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Deal"
+
+  /deals/{id}:
+    get:
+      operationId: getDeal
+      tags: [deals]
+      summary: Get a deal
+      parameters:
+        - $ref: "#/components/parameters/DealId"
+      responses:
+        "200":
+          description: Deal
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Deal"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateDeal
+      tags: [deals]
+      summary: Update a deal (including moving between stages)
+      parameters:
+        - $ref: "#/components/parameters/DealId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DealUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Deal"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteDeal
+      tags: [deals]
+      summary: Delete a deal
+      parameters:
+        - $ref: "#/components/parameters/DealId"
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+
+  /tasks:
+    get:
+      operationId: listTasks
+      tags: [tasks]
+      summary: List tasks in the current organization
+      parameters:
+        - name: completed
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: contactId
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: dealId
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskList"
+    post:
+      operationId: createTask
+      tags: [tasks]
+      summary: Create a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /tasks/{id}:
+    patch:
+      operationId: updateTask
+      tags: [tasks]
+      summary: Update a task (including toggling completion)
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteTask
+      tags: [tasks]
+      summary: Delete a task
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [dashboard]
+      summary: Get aggregate dashboard metrics for the current organization
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
 components:
+  parameters:
+    ContactId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    PipelineStageId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    DealId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    TaskId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+
   schemas:
     HealthStatus:
       type: object
@@ -34,3 +418,282 @@ components:
       required:
         - status
 
+    Organization:
+      type: object
+      required: [id, name, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    Me:
+      type: object
+      required: [userId, name, email, organization]
+      properties:
+        userId:
+          type: integer
+        name:
+          type: ["string", "null"]
+        email:
+          type: ["string", "null"]
+        role:
+          type: string
+        organization:
+          $ref: "#/components/schemas/Organization"
+
+    Contact:
+      type: object
+      required: [id, name, createdAt, updatedAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: ["string", "null"]
+        phone:
+          type: ["string", "null"]
+        source:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ContactInput:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        email:
+          type: string
+        phone:
+          type: string
+        source:
+          type: string
+        notes:
+          type: string
+    ContactUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        email:
+          type: ["string", "null"]
+        phone:
+          type: ["string", "null"]
+        source:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+    ContactList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Contact"
+
+    PipelineStage:
+      type: object
+      required: [id, name, order, color]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        order:
+          type: integer
+        color:
+          type: string
+    PipelineStageInput:
+      type: object
+      required: [name, order]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        order:
+          type: integer
+        color:
+          type: string
+    PipelineStageUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        order:
+          type: integer
+        color:
+          type: string
+    PipelineStageList:
+      type: array
+      items:
+        $ref: "#/components/schemas/PipelineStage"
+
+    DealStatus:
+      type: string
+      enum: [open, won, lost]
+
+    Deal:
+      type: object
+      required: [id, title, value, status, stageId, contactId, createdAt, updatedAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        value:
+          type: number
+        status:
+          $ref: "#/components/schemas/DealStatus"
+        stageId:
+          type: integer
+        contactId:
+          type: integer
+        contactName:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    DealInput:
+      type: object
+      required: [title, value, stageId, contactId]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        value:
+          type: number
+        stageId:
+          type: integer
+        contactId:
+          type: integer
+        status:
+          $ref: "#/components/schemas/DealStatus"
+    DealUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        value:
+          type: number
+        stageId:
+          type: integer
+        contactId:
+          type: integer
+        status:
+          $ref: "#/components/schemas/DealStatus"
+    DealList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Deal"
+
+    Task:
+      type: object
+      required: [id, title, completed, createdAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        dueDate:
+          type: ["string", "null"]
+          format: date-time
+        completed:
+          type: boolean
+        contactId:
+          type: ["integer", "null"]
+        dealId:
+          type: ["integer", "null"]
+        contactName:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+    TaskInput:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        dueDate:
+          type: string
+          format: date-time
+        contactId:
+          type: integer
+        dealId:
+          type: integer
+    TaskUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        dueDate:
+          type: ["string", "null"]
+          format: date-time
+        completed:
+          type: boolean
+        contactId:
+          type: ["integer", "null"]
+        dealId:
+          type: ["integer", "null"]
+    TaskList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Task"
+
+    DealsByStage:
+      type: object
+      required: [stageId, stageName, count, value]
+      properties:
+        stageId:
+          type: integer
+        stageName:
+          type: string
+        count:
+          type: integer
+        value:
+          type: number
+
+    DashboardSummary:
+      type: object
+      required:
+        - totalContacts
+        - openDeals
+        - totalPipelineValue
+        - dealsWonThisMonth
+        - tasksDueToday
+        - tasksOverdue
+        - dealsByStage
+      properties:
+        totalContacts:
+          type: integer
+        openDeals:
+          type: integer
+        totalPipelineValue:
+          type: number
+        dealsWonThisMonth:
+          type: integer
+        tasksDueToday:
+          type: integer
+        tasksOverdue:
+          type: integer
+        dealsByStage:
+          type: array
+          items:
+            $ref: "#/components/schemas/DealsByStage"

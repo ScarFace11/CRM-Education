@@ -1,45 +1,20 @@
-# [Project name]
+# EduCRM
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+## Overview
+EduCRM is a multi-tenant SaaS CRM built for EdTech micro-schools (tutoring studios, coding bootcamps, language schools, homeschool co-ops) to manage prospective and enrolled families through the enrollment funnel.
 
-## Run & Operate
+MVP scope:
+- **Contacts** — family/lead records with notes, source, contact info.
+- **Deals / pipeline** — kanban board of enrollment deals across customizable pipeline stages, drag-and-drop stage changes.
+- **Tasks** — reminders/follow-ups, optionally linked to a contact or deal.
+- **Dashboard** — at-a-glance summary (contacts, open pipeline value, deals won this month, tasks due/overdue, deals by stage).
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
-
-## Stack
-
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
-
-## Where things live
-
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
-
-## Architecture decisions
-
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
-
-## Product
-
-_Describe the high-level user-facing capabilities of this app once they exist._
+## Architecture
+- **Frontend**: `artifacts/crm` — React + Vite, wouter routing, TanStack Query, shadcn/radix UI. Warm "academic" visual identity (parchment background, deep ivy/forest green, Fraunces + Plus Jakarta Sans typography) — deliberately not generic SaaS blue.
+- **Backend**: `artifacts/api-server` — Express 5, OpenAPI-first (`lib/api-spec/openapi.yaml` → Orval codegen → `@workspace/api-client-react` hooks + `@workspace/api-zod` schemas).
+- **Database**: `@workspace/db` (Drizzle ORM / PostgreSQL). Tables: `organizations`, `memberships`, `contacts`, `pipeline_stages`, `deals`, `tasks` — all tenant-scoped tables carry `organizationId`.
+- **Auth & multi-tenancy**: Replit-managed Clerk handles individual user identity only (email/password + Google). Clerk has no native org/tenant concept in this setup, so multi-tenancy is custom: on every authenticated request, `requireOrg` middleware (`artifacts/api-server/src/middlewares/requireOrg.ts`) looks up the Clerk user's `membership` row, or JIT-provisions a personal `organization` + `membership` (role `owner`) + a default 4-stage pipeline on first sign-in. `organizationId` is derived server-side from the authenticated membership and is **never** accepted from the client in request bodies.
 
 ## User preferences
-
-_Populate as you build — explicit user instructions worth remembering across sessions._
-
-## Gotchas
-
-_Populate as you build — sharp edges, "always run X before Y" rules._
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- User has a C#/.NET/MS SQL background; is new to the Replit/Node/TypeScript stack, so explanations should map new concepts to familiar EF Core/ASP.NET equivalents when helpful.
+- No project tasks required for this first build; no code review/e2e testing requested unless issues surface.
