@@ -72,6 +72,19 @@ export default defineConfig({
     fs: {
       strict: true,
     },
+    // Outside Replit, there is no shared reverse proxy mapping "/api" to the
+    // api-server artifact, so /api calls from the browser would 404 against
+    // the Vite dev server itself. Set API_PROXY_TARGET (e.g.
+    // http://localhost:8080) in your local .env to forward them. Unset by
+    // default, so this has no effect inside Replit.
+    proxy: process.env.API_PROXY_TARGET
+      ? {
+          '/api': {
+            target: process.env.API_PROXY_TARGET,
+            changeOrigin: true,
+          },
+        }
+      : undefined,
   },
   preview: {
     port,
