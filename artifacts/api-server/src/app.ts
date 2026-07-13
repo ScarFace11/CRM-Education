@@ -45,6 +45,10 @@ app.use(
       getClerkProxyHost(req) ?? "",
       process.env.CLERK_PUBLISHABLE_KEY,
     ),
+    // Local dev machines are often a few seconds off real time, which makes
+    // Clerk reject freshly-issued tokens as "iat in the future". Widen the
+    // tolerance beyond Clerk's 5s default to absorb typical clock drift.
+    clockSkewInMs: 15_000,
   })),
 );
 

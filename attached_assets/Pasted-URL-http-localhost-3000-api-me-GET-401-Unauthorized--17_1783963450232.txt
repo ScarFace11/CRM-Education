@@ -1,0 +1,68 @@
+URL запроса
+http://localhost:3000/api/me
+Метод запроса
+GET
+Код статуса
+401 Unauthorized
+Удаленный адрес
+127.0.0.1:3000
+Правило для URL перехода
+strict-origin-when-cross-origin
+access-control-allow-credentials
+true
+connection
+close
+content-length
+24
+content-type
+application/json; charset=utf-8
+date
+Mon, 13 Jul 2026 17:22:28 GMT
+etag
+W/"18-XPDV80vbMk4yY1/PADG4jYM4rSI"
+vary
+Origin
+x-clerk-auth-message
+JWT issued at date claim (iat) is in the future. Issued at date: Mon, 13 Jul 2026 17:22:38 GMT; Current date: Mon, 13 Jul 2026 17:22:28 GMT; (reason=token-iat-in-the-future, token-carrier=header)
+x-clerk-auth-reason
+session-token-iat-in-the-future
+x-clerk-auth-status
+signed-out
+x-powered-by
+Express
+accept
+*/*
+accept-encoding
+gzip, deflate, br, zstd
+accept-language
+ru,en;q=0.9
+authorization
+Bearer eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDExMUFBQSIsImtpZCI6Imluc18zR1NHNWZGMHFlbjY2VFBWb20zNFFCWUo1aW0iLCJvaWF0IjoxNzgzOTYzMzU4LCJ0eXAiOiJKV1QifQ.eyJhenAiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJleHAiOjE3ODM5NjM0MTgsImZ2YSI6WzQ4LC0xXSwiaWF0IjoxNzgzOTYzMzU4LCJpc3MiOiJodHRwczovL3RydXN0aW5nLXNrdW5rLTc5LmNsZXJrLmFjY291bnRzLmRldiIsIm5iZiI6MTc4Mzk2MzM0OCwic2lkIjoic2Vzc18zR1NNTnhySEpFajNvSnhTeHl2VkFtYk54NFAiLCJzdHMiOiJhY3RpdmUiLCJzdWIiOiJ1c2VyXzNHU0piZlg1aEhUQmJ2eTg2NlVub1lraG9YUyIsInYiOjJ9.H7Cv0-xMGQazvKIx2x73EG69wpX7_J-8Jz9E0SQl8OLHbp2o6Yb2XqARhN7L1old0yiWwd-IlUJuEVP1loNpzpc4u8fPqZn_lu7y6DtQCvPyyG44ahZD3W7daqlYsxOvfLJFb0NTmbVfq-kKfvWPI2f8Vexl3Ti3dgN2m-VJiIdVzuGTrzVgBBK_Aq3b9Uyy-2Wyko5arASeUQG5iQs_sT66pIxPylfq6DyLyfCR8Axbc0VBde-clfKqet7mLhv-IIjG6Gt37gC4a8wH2rPhKCyp2Opf1HdbOXJvq5GwyQ4aPwxQ-JrKX7vfBWGxRPYeUw0rOJ72omlST1jJohfncg
+connection
+keep-alive
+cookie
+clerk_active_context=sess_3GSMNxrHJEj3oJxSxyvVAmbNx4P:; __clerk_db_jwt_hbh1PG-c=dvb_3GSJU63dQVAioutbwaT1bOHF6eW; __clerk_db_jwt=dvb_3GSJU63dQVAioutbwaT1bOHF6eW; __session=eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDExMUFBQSIsImtpZCI6Imluc18zR1NHNWZGMHFlbjY2VFBWb20zNFFCWUo1aW0iLCJvaWF0IjoxNzgzOTYzMzU4LCJ0eXAiOiJKV1QifQ.eyJhenAiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJleHAiOjE3ODM5NjM0MTgsImZ2YSI6WzQ4LC0xXSwiaWF0IjoxNzgzOTYzMzU4LCJpc3MiOiJodHRwczovL3RydXN0aW5nLXNrdW5rLTc5LmNsZXJrLmFjY291bnRzLmRldiIsIm5iZiI6MTc4Mzk2MzM0OCwic2lkIjoic2Vzc18zR1NNTnhySEpFajNvSnhTeHl2VkFtYk54NFAiLCJzdHMiOiJhY3RpdmUiLCJzdWIiOiJ1c2VyXzNHU0piZlg1aEhUQmJ2eTg2NlVub1lraG9YUyIsInYiOjJ9.H7Cv0-xMGQazvKIx2x73EG69wpX7_J-8Jz9E0SQl8OLHbp2o6Yb2XqARhN7L1old0yiWwd-IlUJuEVP1loNpzpc4u8fPqZn_lu7y6DtQCvPyyG44ahZD3W7daqlYsxOvfLJFb0NTmbVfq-kKfvWPI2f8Vexl3Ti3dgN2m-VJiIdVzuGTrzVgBBK_Aq3b9Uyy-2Wyko5arASeUQG5iQs_sT66pIxPylfq6DyLyfCR8Axbc0VBde-clfKqet7mLhv-IIjG6Gt37gC4a8wH2rPhKCyp2Opf1HdbOXJvq5GwyQ4aPwxQ-JrKX7vfBWGxRPYeUw0rOJ72omlST1jJohfncg; __session_hbh1PG-c=eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDExMUFBQSIsImtpZCI6Imluc18zR1NHNWZGMHFlbjY2VFBWb20zNFFCWUo1aW0iLCJvaWF0IjoxNzgzOTYzMzU4LCJ0eXAiOiJKV1QifQ.eyJhenAiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJleHAiOjE3ODM5NjM0MTgsImZ2YSI6WzQ4LC0xXSwiaWF0IjoxNzgzOTYzMzU4LCJpc3MiOiJodHRwczovL3RydXN0aW5nLXNrdW5rLTc5LmNsZXJrLmFjY291bnRzLmRldiIsIm5iZiI6MTc4Mzk2MzM0OCwic2lkIjoic2Vzc18zR1NNTnhySEpFajNvSnhTeHl2VkFtYk54NFAiLCJzdHMiOiJhY3RpdmUiLCJzdWIiOiJ1c2VyXzNHU0piZlg1aEhUQmJ2eTg2NlVub1lraG9YUyIsInYiOjJ9.H7Cv0-xMGQazvKIx2x73EG69wpX7_J-8Jz9E0SQl8OLHbp2o6Yb2XqARhN7L1old0yiWwd-IlUJuEVP1loNpzpc4u8fPqZn_lu7y6DtQCvPyyG44ahZD3W7daqlYsxOvfLJFb0NTmbVfq-kKfvWPI2f8Vexl3Ti3dgN2m-VJiIdVzuGTrzVgBBK_Aq3b9Uyy-2Wyko5arASeUQG5iQs_sT66pIxPylfq6DyLyfCR8Axbc0VBde-clfKqet7mLhv-IIjG6Gt37gC4a8wH2rPhKCyp2Opf1HdbOXJvq5GwyQ4aPwxQ-JrKX7vfBWGxRPYeUw0rOJ72omlST1jJohfncg; __client_uat_hbh1PG-c=1783960480; __client_uat=1783960480
+host
+localhost:3000
+if-none-match
+W/"ba-1geWAkPIN16ZcboQZk5C7RcZu4I"
+referer
+http://localhost:3000/dashboard
+sec-ch-ua
+"Chromium";v="148", "YaBrowser";v="26.6", "Not/A)Brand";v="99", "Yowser";v="2.5"
+sec-ch-ua-mobile
+?0
+sec-ch-ua-platform
+"Windows"
+sec-fetch-dest
+empty
+sec-fetch-mode
+cors
+sec-fetch-site
+same-origin
+user-agent
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 YaBrowser/26.6.0.0 Safari/537.36
+{error: "Unauthorized"}
+error
+: 
+"Unauthorized"
