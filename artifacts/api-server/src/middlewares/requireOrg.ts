@@ -56,6 +56,16 @@ export async function requireOrg(
     const email = clerkUser.primaryEmailAddress?.emailAddress ?? null;
 
     const organization = await db.transaction(async (tx) => {
+      // Повторная проверка внутри транзакции для предотвращения гонки
+      const [alreadyMember] = await tx
+        .select()
+        .from(membershipsTable)
+        .where(eq(membershipsTable.clerkUserId, userId));
+
+      if (alreadyMember) {
+        return alreadyMember;
+      }
+
       const [org] = await tx
         .insert(organizationsTable)
         .values({ name: `${name}'s Organization` })
@@ -105,7 +115,8 @@ export async function requireOrg(
       return org;
     });
 
-    (req as unknown as AuthedRequest).organizationId = organization.id;
+    (req as unknown as AuthedRequest).organizationId = 
+      'organizationId' in organization ? organization.organizationId : organization.id;
     (req as unknown as AuthedRequest).clerkUserId = userId;
     next();
   } catch (err) {
