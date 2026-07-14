@@ -1,5 +1,3 @@
-# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-
 # compiled output
 dist
 tmp
@@ -47,3 +45,22 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# me
+start.txt
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# Build
+dist/
+build/
+
+# Cache
+.cache/

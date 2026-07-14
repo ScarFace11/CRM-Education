@@ -6,6 +6,7 @@ import { Switch, Route, useLocation, Router as WouterRouter, Redirect } from 'wo
 import { QueryClient, QueryClientProvider, useQueryClient } from "@tanstack/react-query";
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { setAuthTokenGetter } from "@workspace/api-client-react";
 
 // Pages
 import NotFound from '@/pages/not-found';
@@ -105,9 +106,16 @@ function SignUpPage() {
 }
 
 function ClerkQueryClientCacheInvalidator() {
-  const { addListener } = useClerk();
+  const { addListener, session } = useClerk();
   const queryClient = useQueryClient();
   const prevUserIdRef = useRef<string | null | undefined>(undefined);
+
+  useEffect(() => {
+    setAuthTokenGetter(async () => {
+      const token = await session?.getToken();
+      return token ?? null;
+    });
+  }, [session]);
 
   useEffect(() => {
     const unsubscribe = addListener(({ user }) => {
