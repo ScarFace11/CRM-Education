@@ -47,7 +47,7 @@ services:
       db-push:
         condition: service_completed_successfully
     ports:
-      - "8080:8080"
+      - "3001:8080"  # Изменено с 8080:8080 на 3001:8080
 
   crm:
     build:
@@ -60,7 +60,7 @@ services:
     depends_on:
       - api-server
     ports:
-      - "80:80"
+      - "3000:80"  # Изменено с 80:80 на 3000:80
 
 volumes:
   db-data:
