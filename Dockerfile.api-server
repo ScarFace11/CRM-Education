@@ -1,0 +1,19 @@
+# syntax=docker/dockerfile:1
+
+FROM node:24-slim AS base
+RUN corepack enable
+WORKDIR /app
+
+# ---- deps + build ----
+FROM base AS build
+COPY . .
+RUN pnpm install --frozen-lockfile
+RUN pnpm --filter @workspace/api-server... --if-present run build
+
+# ---- runtime ----
+FROM base AS runtime
+ENV NODE_ENV=production
+COPY --from=build /app /app
+EXPOSE 8080
+WORKDIR /app/artifacts/api-server
+CMD ["node", "--enable-source-maps", "./dist/index.mjs"]
