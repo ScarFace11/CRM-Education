@@ -1,0 +1,69 @@
+#18 [api-server build 2/3] RUN pnpm install --frozen-lockfile
+#18 35.15
+#18 35.15 dependencies:
+#18 35.15 + @replit/connectors-sdk 0.4.1
+#18 35.15
+#18 35.15 devDependencies:
+#18 35.15 + @rollup/rollup-win32-x64-msvc 4.62.2
+#18 35.15 + lightningcss-win32-x64-msvc 1.32.0
+#18 35.15 + prettier 3.9.4
+#18 35.15 + typescript 5.9.3
+#18 35.15
+#18 35.17 . preinstall$ node -e "if (!process.env.npm_config_user_agent.startsWith('pnpm')) { console.log('Use pnpm!'); process.exit(1); }"
+#18 35.25 . preinstall: Done
+#18 35.80 [ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: @clerk/shared@3.47.7, esbuild@0.27.3
+#18 35.80
+#18 35.80 Run "pnpm approve-builds" to pick which dependencies should be allowed to run scripts.
+#18 ...
+
+#19 [crm build 2/3] RUN pnpm install --frozen-lockfile
+#19 ERROR: process "/bin/sh -c pnpm install --frozen-lockfile" did not complete successfully: exit code: 1
+
+#18 [api-server build 2/3] RUN pnpm install --frozen-lockfile
+#18 ERROR: process "/bin/sh -c pnpm install --frozen-lockfile" did not complete successfully: exit code: 1
+------
+ > [api-server build 2/3] RUN pnpm install --frozen-lockfile:
+35.15 + @rollup/rollup-win32-x64-msvc 4.62.2
+35.15 + lightningcss-win32-x64-msvc 1.32.0
+35.15 + prettier 3.9.4
+35.15 + typescript 5.9.3
+35.15
+35.17 . preinstall$ node -e "if (!process.env.npm_config_user_agent.startsWith('pnpm')) { console.log('Use pnpm!'); process.exit(1); }"
+35.25 . preinstall: Done
+35.80 [ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: @clerk/shared@3.47.7, esbuild@0.27.3
+35.80
+35.80 Run "pnpm approve-builds" to pick which dependencies should be allowed to run scripts.
+------
+------
+ > [crm build 2/3] RUN pnpm install --frozen-lockfile:
+31.70 + @rollup/rollup-win32-x64-msvc 4.62.2
+31.70 + lightningcss-win32-x64-msvc 1.32.0
+31.70 + prettier 3.9.4
+31.70 + typescript 5.9.3
+31.70
+31.87 . preinstall$ node -e "if (!process.env.npm_config_user_agent.startsWith('pnpm')) { console.log('Use pnpm!'); process.exit(1); }"
+32.56 . preinstall: Done
+35.24 [ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: @clerk/shared@3.47.7, esbuild@0.27.3
+35.24
+[+] up 1/4"pnpm approve-builds" to pick which dependencies should be allowed to run scripts.
+ ✔ Image postgres:16-alpine       Pulled                                                                           72.4s - Image crm-education-api-server Building                                                                         71.1s - Image crm-education-crm        Building                                                                         71.1s - Image crm-education-db-push    Building                                                                         71.1sDockerfile.crm:17
+
+--------------------
+
+  15 |     ENV BASE_PATH=${BASE_PATH}
+
+  16 |     ENV PORT=3000
+
+  17 | >>> RUN pnpm install --frozen-lockfile
+
+  18 |     RUN pnpm --filter @workspace/crm... --if-present run build
+
+  19 |
+
+--------------------
+
+target crm: failed to solve: process "/bin/sh -c pnpm install --frozen-lockfile" did not complete successfully: exit code: 1
+
+
+What's next:
+    Debug this Compose error with Gordon → docker ai "help me fix this compose error"
